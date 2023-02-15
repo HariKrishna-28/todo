@@ -1,20 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { Text, View, ActivityIndicator } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { ForgotPass, HomeScreen, Login, Signup } from "./screens";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useEffect } from "react";
+import { auth } from "./firebase";
 
 export default function App() {
+  const Stack = createNativeStackNavigator();
+  const [User, loading, error] = useAuthState(auth);
+
+  useEffect(() => {
+    if (loading) return;
+  }, [User, loading]);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="SignUp" component={Signup} />
+        <Stack.Screen name="ForgotPass" component={ForgotPass} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
