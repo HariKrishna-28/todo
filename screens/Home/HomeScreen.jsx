@@ -12,8 +12,8 @@ const HomeScreen = () => {
     const [load, setLoad] = useState(true)
     // const userCollectionRef = collection(db, "user-todo", user?.email)
 
-    const initialiseNewUser = async (user) => {
-        const userEmail = user.slice(0, user.indexOf('@'))
+    // check if the user already has a collection
+    const initialiseNewUser = async (userEmail) => {
         getDoc(doc(db, "user-todo", userEmail))
             .then((docSnap) => {
                 if (!docSnap.exists()) {
@@ -26,6 +26,7 @@ const HomeScreen = () => {
             });
     }
 
+    // create a collection for a user
     const createDatabase = async (userEmail) => {
         try {
             await setDoc(doc(db, "user-todo", userEmail))
