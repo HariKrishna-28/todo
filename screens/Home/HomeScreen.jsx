@@ -12,7 +12,28 @@ const HomeScreen = () => {
     const [load, setLoad] = useState(true)
     // const userCollectionRef = collection(db, "user-todo", user?.email)
 
+    const initialiseNewUser = async (user) => {
+        const userEmail = user.slice(0, user.indexOf('@'))
+        getDoc(doc(db, "user-todo", userEmail))
+            .then((docSnap) => {
+                if (!docSnap.exists()) {
+                    createDatabase(userEmail)
+                }
+                else { console.log("User Exists") }
+            })
+            .catch((error) => {
+                console.log("Error getting document:", error);
+            });
+    }
 
+    const createDatabase = async (userEmail) => {
+        try {
+            await setDoc(doc(db, "user-todo", userEmail))
+            console.log("created user")
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -25,33 +46,12 @@ const HomeScreen = () => {
         if (loading) return
         if (!user) navigation.navigate("Login")
         if (user?.email) {
-            createDatabase(user.email)
+            initialiseNewUser(user.email)
             setLoad(false)
         }
     }, [user, loading])
 
-    const createDatabase = async (user) => {
-        const userEmail = user.slice(0, user.indexOf('@'))
-        getDoc(doc(db, "user-todo", userEmail))
-            .then((docSnap) => {
-                if (docSnap.exists()) {
-                    console.log(`Collection for ${userEmail} already exists`);
-                } else {
-                    console.log(`Collection for ${userEmail} does not exist`);
-                    // Create the user's collection here
-                    setDoc(doc(db, "user-todo", userEmail), { /* collection data here */ })
-                        .then(() => {
-                            console.log(`Collection for ${userEmail} successfully created!`);
-                        })
-                        .catch((error) => {
-                            console.error(`Error creating collection for ${userEmail}: `, error);
-                        });
-                }
-            })
-            .catch((error) => {
-                console.log("Error getting document:", error);
-            });
-    }
+
 
     return (
         <SafeAreaView className="h-full bg-backGround">
