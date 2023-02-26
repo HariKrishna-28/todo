@@ -28,12 +28,9 @@ const Login = () => {
     }, [user, loading])
 
     const SignIn = () => {
-        // console.log(email, pass)
-        // auth.signInWithPopup(provider)
         setError("")
         auth.signInWithEmailAndPassword(email, pass)
             .then(() => {
-                // console.log(user)
                 navigation.navigate("Home")
             })
             .catch(error => setError(error.message))
