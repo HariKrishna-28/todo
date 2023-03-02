@@ -99,6 +99,7 @@ const HomeScreen = () => {
             <View className="h-[50px]">
                 {/* <Text>Footer</Text> */}
                 <TouchableOpacity>
+
                     {!taskModal ?
 
                         <Button
