@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '../../firebase'
 import { collection, doc, getDoc } from 'firebase/firestore'
@@ -10,6 +10,32 @@ const Taskbox = ({ email }) => {
     const [user, loading, error] = useAuthState(auth)
     const userTodoDocRef = doc(db, 'user-todo', email);
     const [taskSnapshot, tLoad, tError] = useDocument(userTodoDocRef)
+    // const [docLength, setDocLength] = useState(0)
+
+
+    // const getDocLength = async (docSnap) => {
+    //     try {
+    //         if (docSnap.exists()) {
+    //             const numFields = Object.keys(docSnap.data()).length;
+    //             setDocLength(numFields)
+    //             console.log(numFields)
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+    useEffect(() => {
+
+        if (tLoad) return
+        console.log(taskSnapshot.data())
+        // if (taskSnapshot) {
+        //     // getDocLength(taskSnapshot)
+        //     // const numDocs = taskSnapshot.size
+        //     // console.log(numDocs)
+        // }
+    }, [taskSnapshot, tLoad])
+
 
     return (
         <View>
@@ -17,9 +43,18 @@ const Taskbox = ({ email }) => {
                 {tLoad ?
                     <Loader />
                     :
-                    taskSnapshot.data.length == 0 ?
-                        <Text className="text-white">Empty </Text>
-                        : <Text className="text-white">Innah thaley </Text>
+                    <View>
+                        <Text className="text-white">hi</Text>
+                    </View>
+                    // taskSnapshot.data().map((task, index) => {
+                    //     return (
+                    //         <View>
+                    //             <Text>{task.title}</Text>
+                    //             <Text>{task.description}</Text>
+                    //             {/* <Text>{</Text> */}
+                    //         </View>
+                    //     )
+                    // })
                 }
             </Text>
         </View>

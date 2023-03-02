@@ -35,20 +35,21 @@ const HomeScreen = () => {
     }
 
     async function createCollectionIfNotExists(userEmail) {
-        const collectionsRef = collection(db, 'user-todo');
 
         try {
-            const querySnapshot = await getDocs(collectionsRef);
-            const collectionExists = querySnapshot.docs.some(
-                (doc) => doc.id === userEmail
-            );
+            const userEmailCollectionRef = collection(db, userEmail);
+            const snapshot = await getDocs(userEmailCollectionRef);
+            // const collectionExists = querySnapshot.exists()
+            // const collectionExists = querySnapshot.docs.some(
+            //     (doc) => doc.id === userEmail
+            // );
 
-            if (!collectionExists) {
-                const newCollectionRef = collection(db, 'user-todo', userEmail);
-                await addDoc(newCollectionRef, { name: 'User Todo' });
-                console.log(`Collection '${userEmail}' created successfully!`);
+            if (snapshot.empty) {
+                // Collection does not exist, so create a new document to create the collection
+                const newDocRef = await addDoc(userEmailCollectionRef);
+                console.log(`New collection "${userEmailCollectionRef.id}" created with document "${newDocRef.id}"`);
             } else {
-                console.log(`Collection '${userEmail}' already exists.`);
+                console.log(`Collection "${userEmailCollectionRef.id}" already exists with ${snapshot.size} documents`);
             }
         } catch (error) {
             console.error('Error checking or creating collection: ', error);
@@ -75,9 +76,9 @@ const HomeScreen = () => {
         if (loading) return
         if (!user) navigation.navigate("Login")
         if (user?.email) {
-            initialiseNewUser(user.email)
+            // initialiseNewUser(user.email)
+            createCollectionIfNotExists(user.email)
             setLoad(false)
-            // createCollectionIfNotExists(user.email)
         }
     }, [user, loading])
 
@@ -115,6 +116,7 @@ const HomeScreen = () => {
                 </TouchableOpacity>
                 <NewTodoModal
                     visible={taskModal}
+                    email={user?.email}
                     handleClose={() => {
                         closeTaskModal()
                     }}
