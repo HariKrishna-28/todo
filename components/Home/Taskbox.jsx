@@ -1,62 +1,49 @@
 import { View, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '../../firebase'
-import { collection, doc, getDoc } from 'firebase/firestore'
-import { useCollection, useDocument } from 'react-firebase-hooks/firestore'
+import { collection, } from 'firebase/firestore'
+import { useCollectionData, } from 'react-firebase-hooks/firestore'
 import Loader from '../Loader/Loader'
+import TaskCard from './TaskCard'
 
 const Taskbox = ({ email }) => {
     const [user, loading, error] = useAuthState(auth)
-    const userTodoDocRef = doc(db, 'user-todo', email);
-    const [taskSnapshot, tLoad, tError] = useDocument(userTodoDocRef)
-    // const [docLength, setDocLength] = useState(0)
-
-
-    // const getDocLength = async (docSnap) => {
-    //     try {
-    //         if (docSnap.exists()) {
-    //             const numFields = Object.keys(docSnap.data()).length;
-    //             setDocLength(numFields)
-    //             console.log(numFields)
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
-    useEffect(() => {
-
-        if (tLoad) return
-        console.log(taskSnapshot.data())
-        // if (taskSnapshot) {
-        //     // getDocLength(taskSnapshot)
-        //     // const numDocs = taskSnapshot.size
-        //     // console.log(numDocs)
-        // }
-    }, [taskSnapshot, tLoad])
+    const query = collection(db, email)
+    const [data, dLoad, dError] = useCollectionData(query)
 
 
     return (
-        <View>
-            <Text>
-                {tLoad ?
-                    <Loader />
-                    :
-                    <View>
-                        <Text className="text-white">hi</Text>
-                    </View>
-                    // taskSnapshot.data().map((task, index) => {
-                    //     return (
-                    //         <View>
-                    //             <Text>{task.title}</Text>
-                    //             <Text>{task.description}</Text>
-                    //             {/* <Text>{</Text> */}
-                    //         </View>
-                    //     )
-                    // })
-                }
-            </Text>
+        <View >
+            {dLoad ?
+                <Loader />
+                :
+                <View >
+                    {/* <Text className="text-white">hi</Text> */}
+                    {data && data.map((doc, index) => {
+                        return (
+                            <View key={index} className="flex flex-col p-1.5">
+                                <TaskCard
+                                    createdAt={doc.createdAt}
+                                    title={doc.task}
+                                    description={doc.description}
+                                />
+                                {/* <Text className="text-cyan-300">{doc.task}</Text>
+                                    <Text className="text-cyan-300">{doc.description}</Text>
+                                    <Text className="text-cyan-300">{moment(doc?.createdAt.toDate()).fromNow()}</Text> */}
+                            </View>
+                        )
+                    })}
+                    {/* {taskSnapshot && taskSnapshot?.map((doc) => {
+                            return (
+                                <View key={doc?.id}>
+                                    <Text>{doc?.title}</Text>
+                                    <Text>{doc?.description}</Text>
+                                </View>
+                            )
+                        })} */}
+                </View>
+            }
         </View>
     )
 }

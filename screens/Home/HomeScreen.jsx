@@ -87,7 +87,7 @@ const HomeScreen = () => {
     return (
         <SafeAreaView className="flex flex-col items-center justify-between h-full bg-backGround">
             {/* <Text className="text-white">hi {user?.email ? user.email : "No user"}</Text> */}
-            <View className="h-max">
+            <View className="w-full h-max">
                 {
                     loading
                         ?
