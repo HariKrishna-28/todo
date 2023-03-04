@@ -1,8 +1,8 @@
 import { View, Text } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '../../firebase'
-import { collection, } from 'firebase/firestore'
+import { collection, orderBy, } from 'firebase/firestore'
 import { useCollectionData, } from 'react-firebase-hooks/firestore'
 import Loader from '../Loader/Loader'
 import TaskCard from './TaskCard'
@@ -10,7 +10,15 @@ import TaskCard from './TaskCard'
 const Taskbox = ({ email }) => {
     const [user, loading, error] = useAuthState(auth)
     const query = collection(db, email)
-    const [data, dLoad, dError] = useCollectionData(query)
+    const sortQ = query(query, orderBy('createdAt', 'desc'))
+    const [data, dLoad, dError] = useCollectionData(sortQ)
+    const [refinedData, setRefinedData] = useState([])
+
+    useEffect(() => {
+        if (dLoad || !data) return
+        const refData = data.filter(element => element?.description && element?.task)
+        setRefinedData(refData)
+    }, [data, dLoad])
 
 
     return (
@@ -20,7 +28,7 @@ const Taskbox = ({ email }) => {
                 :
                 <View >
                     {/* <Text className="text-white">hi</Text> */}
-                    {data && data.map((doc, index) => {
+                    {data && refinedData.map((doc, index) => {
                         return (
                             <View key={index} className="flex flex-col p-1.5">
                                 <TaskCard

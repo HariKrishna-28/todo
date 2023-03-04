@@ -39,14 +39,16 @@ const HomeScreen = () => {
         try {
             const userEmailCollectionRef = collection(db, userEmail);
             const snapshot = await getDocs(userEmailCollectionRef);
+            // const newwDocRef = userEmailCollectionRef.getDoc()
             // const collectionExists = querySnapshot.exists()
             // const collectionExists = querySnapshot.docs.some(
             //     (doc) => doc.id === userEmail
             // );
 
             if (snapshot.empty) {
+                // newDocRef.set({})
                 // Collection does not exist, so create a new document to create the collection
-                const newDocRef = await addDoc(userEmailCollectionRef);
+                const newDocRef = await setDoc(userEmailCollectionRef, {});
                 console.log(`New collection "${userEmailCollectionRef.id}" created with document "${newDocRef.id}"`);
             } else {
                 console.log(`Collection "${userEmailCollectionRef.id}" already exists with ${snapshot.size} documents`);
