@@ -6,8 +6,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native'
 import { doc, setDoc, addDoc, collection, getDoc, Timestamp, getDocs } from "firebase/firestore";
 import Taskbox from '../../components/Home/Taskbox';
-import { Loader } from '../../components';
+import { Loader, NavigationTabs } from '../../components';
 import NewTodoModal from '../../components/Modal/NewTodoModal';
+import { NavigationContainer } from '@react-navigation/native'
 
 const HomeScreen = () => {
     const [user, loading, error] = useAuthState(auth)
@@ -87,46 +88,50 @@ const HomeScreen = () => {
 
 
     return (
-        <SafeAreaView className="flex flex-col items-center justify-between h-full bg-backGround">
+        // <SafeAreaView className="flex flex-col items-center justify-between h-full bg-backGround">
+        <NavigationContainer independent={true}>
             {/* <Text className="text-white">hi {user?.email ? user.email : "No user"}</Text> */}
-            <View className="w-full h-max">
-                {
-                    loading
-                        ?
-                        <Loader />
-                        :
-                        <Taskbox
-                            email={user.email} />
-                }
-            </View>
-            <View className="h-[50px]">
-                {/* <Text>Footer</Text> */}
-                <TouchableOpacity>
-
-                    {!taskModal ?
-
-                        <Button
-                            onPress={openTaskModal}
-                            title="Open tasks"
-                        />
-                        :
-                        <Button
-                            onPress={closeTaskModal}
-                            title="close tasks"
-                        />
-                    }
-                </TouchableOpacity>
-                <NewTodoModal
-                    visible={taskModal}
-                    email={user?.email}
-                    handleClose={closeTaskModal}
-                />
-            </View>
-
-
-
-        </SafeAreaView>
+            <NavigationTabs />
+        </NavigationContainer>
+        // </SafeAreaView>
     )
 }
 
 export default HomeScreen
+
+
+//     < View className = "w-full h-max" >
+//         {
+//             loading
+//                 ?
+//                 <Loader />
+//                         :
+// <Taskbox
+//     email={user.email} />
+//                 }
+//             </ >
+//     <View className="h-[50px]">
+//         {/* <Text>Footer</Text> */}
+//         <TouchableOpacity>
+
+//             {!taskModal ?
+
+//                 <Button
+//                     onPress={openTaskModal}
+//                     title="Open tasks"
+//                 />
+//                 :
+//                 <Button
+//                     onPress={closeTaskModal}
+//                     title="close tasks"
+//                 />
+//             }
+//         </TouchableOpacity>
+//         <NewTodoModal
+//             visible={taskModal}
+//             email={user?.email}
+//             handleClose={closeTaskModal}
+//         />
+//     </View>
+
+
