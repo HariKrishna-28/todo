@@ -22,8 +22,8 @@ const NewTodoModal = ({ visible, handleClose, email }) => {
             const docRef = collection(db, email)
             addDoc(docRef, data)
                 .then(() => {
-                    console.log("written")
                     handleClose()
+                    console.log("written")
                 })
                 .catch((error) => console.error(error))
                 .finally(() => handleClose())

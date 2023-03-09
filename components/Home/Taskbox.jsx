@@ -2,15 +2,15 @@ import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '../../firebase'
-import { collection, orderBy, } from 'firebase/firestore'
-import { useCollectionData, } from 'react-firebase-hooks/firestore'
+import { collection, orderBy, query } from 'firebase/firestore'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
 import Loader from '../Loader/Loader'
 import TaskCard from './TaskCard'
 
 const Taskbox = ({ email }) => {
     const [user, loading, error] = useAuthState(auth)
-    const query = collection(db, email)
-    const sortQ = query(query, orderBy('createdAt', 'desc'))
+    const Query = collection(db, email)
+    const sortQ = query(Query, orderBy('createdAt', 'desc'))
     const [data, dLoad, dError] = useCollectionData(sortQ)
     const [refinedData, setRefinedData] = useState([])
 

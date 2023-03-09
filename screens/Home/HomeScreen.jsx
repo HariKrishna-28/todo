@@ -48,7 +48,7 @@ const HomeScreen = () => {
             if (snapshot.empty) {
                 // newDocRef.set({})
                 // Collection does not exist, so create a new document to create the collection
-                const newDocRef = await setDoc(userEmailCollectionRef, {});
+                const newDocRef = await addDoc(userEmailCollectionRef, {});
                 console.log(`New collection "${userEmailCollectionRef.id}" created with document "${newDocRef.id}"`);
             } else {
                 console.log(`Collection "${userEmailCollectionRef.id}" already exists with ${snapshot.size} documents`);
@@ -119,9 +119,7 @@ const HomeScreen = () => {
                 <NewTodoModal
                     visible={taskModal}
                     email={user?.email}
-                    handleClose={() => {
-                        closeTaskModal()
-                    }}
+                    handleClose={closeTaskModal}
                 />
             </View>
 
