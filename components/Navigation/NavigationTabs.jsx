@@ -7,7 +7,20 @@ import { Default, NewTask, User } from '../../screens';
 const NavigationTabs = () => {
     const Tab = createBottomTabNavigator()
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+            screenOptions={{
+                tabBarStyle: {
+                    position: 'absolute',
+                    bottom: 20,
+                    left: 15,
+                    right: 15,
+                    elevation: 0,
+                    borderRadius: 10,
+                    height: 90,
+                    backgroundColor: '#181B21'
+                }
+            }}
+        >
             <Tab.Screen name="Default" component={Default} />
             <Tab.Screen name="User" component={User} />
             <Tab.Screen name="NewTask" component={NewTask} />
