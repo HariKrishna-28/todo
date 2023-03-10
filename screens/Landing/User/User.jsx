@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const User = () => {
     const navigation = useNavigation()
@@ -12,9 +13,9 @@ const User = () => {
     }, [])
 
     return (
-        <View>
+        <SafeAreaView>
             <Text>User</Text>
-        </View>
+        </SafeAreaView>
     )
 }
 

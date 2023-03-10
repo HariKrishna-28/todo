@@ -36,9 +36,6 @@ const Taskbox = ({ email }) => {
                                     title={doc.task}
                                     description={doc.description}
                                 />
-                                {/* <Text className="text-cyan-300">{doc.task}</Text>
-                                    <Text className="text-cyan-300">{doc.description}</Text>
-                                    <Text className="text-cyan-300">{moment(doc?.createdAt.toDate()).fromNow()}</Text> */}
                             </View>
                         )
                     })}

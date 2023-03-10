@@ -19,7 +19,7 @@ const NavigationTabs = () => {
                     elevation: 0,
                     borderRadius: 10,
                     height: 90,
-                    backgroundColor: '#181B21'
+                    backgroundColor: 'black',
                 }
             }}
         >
