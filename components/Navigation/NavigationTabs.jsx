@@ -21,7 +21,12 @@ const NavigationTabs = () => {
                 }
             }}
         >
-            <Tab.Screen name="Default" component={Default} />
+            <Tab.Screen
+options={{
+    tabBarIcon:({focused})
+
+}}
+name="Default" component={Default} />
             <Tab.Screen name="User" component={User} />
             <Tab.Screen name="NewTask" component={NewTask} />
         </Tab.Navigator>
