@@ -5,7 +5,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Default, NewTask, User } from '../../screens';
 
 const NavigationTabs = () => {
+
     const Tab = createBottomTabNavigator()
+
     return (
         <Tab.Navigator
             screenOptions={{
@@ -21,12 +23,7 @@ const NavigationTabs = () => {
                 }
             }}
         >
-            <Tab.Screen
-options={{
-    tabBarIcon:({focused})
-
-}}
-name="Default" component={Default} />
+            <Tab.Screen name="Default" component={Default} />
             <Tab.Screen name="User" component={User} />
             <Tab.Screen name="NewTask" component={NewTask} />
         </Tab.Navigator>
