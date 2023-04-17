@@ -20,7 +20,7 @@ const NewTodoModal = ({ visible, handleClose, email }) => {
                 createdAt: serverTimestamp(),
             }
             const docRef = collection(db, email)
-            addDoc(docRef, data)
+            await addDoc(docRef, data)
                 .then(() => {
                     handleClose()
                     console.log("written")

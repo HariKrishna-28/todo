@@ -77,7 +77,9 @@ const HomeScreen = () => {
 
     useEffect(() => {
         if (loading) return
-        if (!user) navigation.navigate("Login")
+        if (!user) {
+            navigation.navigate("Login")
+        }
         if (user?.email) {
             // initialiseNewUser(user.email)
             createCollectionIfNotExists(user.email)

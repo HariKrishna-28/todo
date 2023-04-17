@@ -91,6 +91,10 @@ const Default = () => {
                 <Text>hiS</Text>
             </View> */}
             <ScrollView className="w-full h-max" >
+                <Button
+                    onPress={openTaskModal}
+                    title="Open tasks"
+                />
                 {
                     loading
                         ?
@@ -122,6 +126,11 @@ const Default = () => {
                     handleClose={closeTaskModal}
                 />
             </View> */}
+            <NewTodoModal
+                visible={taskModal}
+                email={user?.email}
+                handleClose={closeTaskModal}
+            />
 
         </SafeAreaView>
     )
